@@ -1,0 +1,366 @@
+・以下のようなシンガーの曲の相関を確認できるサイトをつくりたいのでプログラムを作成して
+ Music-Map https://www.music-map.com/
+
+以下は要件
+・JavaScriptで作成。可能であればTypeScriptを優先
+・シンガーは一人
+・シンガーのYoutubeに格納されている動画のリストを使用する
+・リストは曲名（Title）,発売日（Release Date),ジャンル（Genre）,テーマ（Theme ),BPM,urlの属性を付けられるようにする
+・ジャンルの属性は複数つけられるようにする
+・リストにあるYoutubeの動画からサムネイル画像を作成して曲名と共にリストのものすべてを画面に表示する
+・サムネイル画像をクリックするとリンク先のYoutube動画を新規ウィンドウで表示する
+・属性指定すると関連する動画を画面の中央に移動し、関連の低い動画ほど外側に配置するよう動的に移動するようにする
+
+
+・サムネイルが上部に配置されてブラウザで見えない部分があります。サムネイルはウィンドウサイズを変更しても画面の中央に配置されるようにして
+
+
+ジャンル
+バラード、ロック、ポップ、エレクトロ、ヒップホップ、ジャズ、クラシック、アニメ、ボカロ、アコースティック、
+
+テーマ
+恋愛、別れ、希望、、葛藤、自己探求、家族・友人、社会、季節、日常、ファンタジー
+
+
+
+以下のエラーがでてサムネイルが表示されなくなりました
+favicon.ico:1  GET http://localhost:5173/favicon.ico 404 (Not Found)
+
+
+以下がでてサムネイルはブラウザに表示されなくなりました
+Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+favicon.ico:1  GET http://localhost:5173/favicon.ico 404 (Not Found)
+
+Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+favicon.ico:1  GET http://localhost:5173/favicon.ico 404 (Not Found)
+
+Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+favicon.ico:1  GET http://localhost:5173/favicon.ico 404 (Not Found)
+
+この要件が満足できていません「属性指定すると関連する動画を画面の中央に移動し、関連の低い動画ほど外側に配置するよう動的に移動するようにする」
+
+以下のメッセージになりエラーはでなくなりました。
+Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+ただし、サムネイルやジャンルは表示されなく画面は真っ白です。
+
+以下のエラーがでます
+Uncaught SyntaxError: The requested module '/src/components/MusicMap.tsx?t=1760161435891' does not provide an export named 'default' (at App.tsx:2:8)
+
+
+ジャンルは表示されるがサムネイルは表示されません。
+* 画面全体を囲む赤い枠線は見えない
+* 青い箱もなない
+
+
+* 画面全体を囲む赤い枠線は見えます
+* その赤い枠線の中に、青い枠線の箱（サムネイル）は見えます
+* サムネイル画像は表示されています
+* ジャンルボタンをクリックすると、サムネイルが動的に移動します
+追加の依頼です
+サムネイルは重ならないようにして
+releaseDateで古い順と新しい順に並び変えられるようにして
+
+
+ジャンルでクリックしたものにリリース日順と同じ色を付けて
+リリース日順にならび変えるのはジャンルで指定した属性のあるものだけにして
+ジャンルで指定していないものも画面の外周の方に表示するようにして
+選んだジャンルのサムネイルが外周の色で分かるようにして
+
+リリース日順にならび変えるのはジャンルで指定した属性のあるものだけにして。ジャンルで選択した属性のものは古い順や新しい順が選択されても移動しないということです。
+ジャンルで選択したものがよりわかるように赤い強調した枠にして
+
+ジャンルで選択されたサムネイルがリリース順の古い順、新しい順で入れ替わりません。releaseDateで表示順が変わるようにして。
+ジャンルで選択した赤枠が分かりにくいので赤い枠を太くして点滅して動的にわかるようにして
+
+非マッチ曲はリリース日順を指定しても入れ替わらないようにして
+ジャンルで選択されたものの点滅は枠だけにして
+
+サムネイルのサイズが大きくなってしまいました。修正する前のサイズにして。
+サムネイルはかさならないようにして
+ジャンルで選択されたものが点滅しなくなったしまったため、枠だけ点滅するようににして
+
+ジャンルに加えてthemeでもサムネイルを移動できるようにして
+ジャンルとthemeで選択されたものはこれまでと同じように中央に配置し、選択されていないものは外周に配置
+リリース日での並び替えはジャンルとthemeで選択されたもののなかで移動し、非選択のものは移動しないようにして
+
+ジャンルとテーマはAND条件ではなくOR条件でどちらかの属性があれば選択されたものが中央にくるようにして
+
+外に移動したサムネイルが重なる場合があります。サムネイルは重ならないようにして
+ジャンルもしくはテーマが選択されたものすべてが中央に集まらないのでジャンルとテーマで選択された属性があるものは全て中央に重ならないように移動して
+
+
+ジャンルまたはテーマ（あるいは両方）を選択した際に、マッチする曲が中央に移動されません。テーマを選択すると非テーマが外に移動されてしまいます。ジャンルまたはテーマ（あるいは両方）を選択するようにして
+ジャンルまたはテーマ（あるいは両方）を選択したものが中央に移動されなく外周に移動してしまうため中央に配置されるようにして
+
+リリース日順で位置を入れ替えるときに非選択のものが移動してしまうため非選択のものは移動しないようにして。選択したものはこれまで通り指定した日付順にする。
+
+以前の不具合のようにテーマとジャンルの両方を選択しないと非選択が外側に移動しなくなりました。ジャンル,テーマ両方もしくはどちらかが非選択であれば外に移動して選択されたもののみ中央に表示してくだださい。
+
+上部にタイトルとして"曇音ルカリスト"と表示して。
+
+ブラウザの領域サイズが小さいとき画面外のサムネイルを見ることができないため縦も横もスクロールして見れるようにして
+縦の幅が小さいときにサムネイルがジャンルやテーマなどが記載された領域と重ならないようにして
+タイトルをおしゃれなフォントにして
+
+
+
+まだ以下が解決できていないため修正して
+ウィンドウサイズを小さくするとまだジャンル、テーマ、リリース日の領域とサムネイルがかさなってしまうため重ならないようにして
+タイトルがジャンル、テーマ、リリース日の領域と重なるため重ならないようにして
+
+
+以下のエラーがでて画面真っ白になりましたので対応して
+App.tsx:2 Uncaught SyntaxError: The requested module '/src/components/MusicMap.tsx?t=1760170888181' does not provide an export named 'default' (at App.tsx:2:8)
+
+
+以下のGEMINIのエラーに対応して
+✕ [API Error: Model stream ended with empty response text.]
+
+ブラウザのエリアの横幅が狭い場合にジャンル、テーマ、リリース日のエリアが下方向に移動してしまわないようにタイトルとの距離が変わらないようにして
+
+
+
+以下のエラーが発生しています。
+  213 | export default MusicMap;
+  214 |
+> 215 |   return (
+      |   ^
+  216 |     <div className={styles.container} ref={containerRef}>
+  217 |       <h1 ref={titleRef}>曇音ルカリスト</h1>
+  218 |       <Controls
+19:31:30 [vite] Internal server error: X:\Soft\ruka_music\src\components\MusicMap.tsx: 'return' outside of function. (215:2)
+
+
+以下のエラーが出ています。対応して。
+App.tsx:2 Uncaught SyntaxError: The requested module '/src/components/MusicMap.tsx' does not provide an export named 'default' (at App.tsx:2:8)
+
+
+App.tsx:2 Uncaught SyntaxError: The requested module '/src/components/MusicMap.tsx' does not provide an export named 'default' (at App.tsx:2:8)
+
+App.tsx:2 Uncaught SyntaxError: The requested module '/src/components/MusicMap.tsx' does not provide an export named 'default' (at App.tsx:2:8)
+
+
+テーマとリリース日順の間にsongs.csvのH列に追加した属性Singerを選択できる行を追加してSingerでも分類できるようにして
+
+
+以下のエラーが出ています。対応して。
+✕ [API Error: Model stream ended without a finish reason.]
+
+以下のエラーが出ています
+✕ [API Error: Model stream ended with empty response text.]
+
+Singerという文字列は表示されるが選択するボタンは「すべて」というボタンと文字列がないボタンの２つしか表示されていない。
+初期状態では文字列がないボタンに色がついているが「すべて」のボタンを押しても色は消えない
+
+
+Singerを選択した場合非選択のサムネイルは非表示にして。
+Singerをすべてを選択した場合はサムネイルすべて表示して
+
+以下のエラーに対応して
+✕ [API Error: Model stream ended with empty response text.]
+
+
+以下に対応して
+✕ [API Error: Model stream ended with empty response text.]
+
+
+・ジャンル、テーマ、Singerの項目で選択したものが中央に移動しなくなっているため中央に移動するようにして
+・Singerで非選択のものは表示しないようにして
+コンソールには以下のエラーがでています
+
+windowsサイズを小さくしたときサムネイルがジャンル、テーマ、Singer、リリース日順が表示されたエリアと重なって見えなくなるため、Windowsサイズを変更した場合でもサムネイルがジャンル、テーマ、Singer、リリース日順の領域に重ならないようにして
+
+ジャンル、テーマ、Singerを「すべて」を選択した場合中央に移動したサムネイルが重なっています。どのような場合でもサムネイルが重ならないようにして
+
+まだ改善されていません。ジャンル、Singer、テーマの項目の選択により中央に移動した複数のサムネイルが重ならないようにして。
+
+
+起動時一瞬サムネイルは表示されるがその後画面真っ白になります
+コンソールには以下のエラーが表示されます
+chunk-373CG7ZK.js?v=39c2c2c9:21549 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+MusicMap.tsx:165 Uncaught ReferenceError: nonMatchingCount is not defined
+    at MusicMap.tsx:165:13
+    at Array.map (<anonymous>)
+    at MusicMap.tsx:153:33
+    at MusicMap (MusicMap.tsx:182:7)
+    at renderWithHooks (chunk-373CG7ZK.js?v=39c2c2c9:11546:26)
+    at updateFunctionComponent (chunk-373CG7ZK.js?v=39c2c2c9:14580:28)
+    at beginWork (chunk-373CG7ZK.js?v=39c2c2c9:15922:22)
+    at HTMLUnknownElement.callCallback2 (chunk-373CG7ZK.js?v=39c2c2c9:3672:22)
+    at Object.invokeGuardedCallbackDev (chunk-373CG7ZK.js?v=39c2c2c9:3697:24)
+    at invokeGuardedCallback (chunk-373CG7ZK.js?v=39c2c2c9:3731:39)
+(anonymous) @ MusicMap.tsx:165
+(anonymous) @ MusicMap.tsx:153
+MusicMap @ MusicMap.tsx:182
+renderWithHooks @ chunk-373CG7ZK.js?v=39c2c2c9:11546
+updateFunctionComponent @ chunk-373CG7ZK.js?v=39c2c2c9:14580
+beginWork @ chunk-373CG7ZK.js?v=39c2c2c9:15922
+callCallback2 @ chunk-373CG7ZK.js?v=39c2c2c9:3672
+invokeGuardedCallbackDev @ chunk-373CG7ZK.js?v=39c2c2c9:3697
+invokeGuardedCallback @ chunk-373CG7ZK.js?v=39c2c2c9:3731
+beginWork$1 @ chunk-373CG7ZK.js?v=39c2c2c9:19763
+performUnitOfWork @ chunk-373CG7ZK.js?v=39c2c2c9:19196
+workLoopSync @ chunk-373CG7ZK.js?v=39c2c2c9:19135
+renderRootSync @ chunk-373CG7ZK.js?v=39c2c2c9:19114
+performConcurrentWorkOnRoot @ chunk-373CG7ZK.js?v=39c2c2c9:18676
+workLoop @ chunk-373CG7ZK.js?v=39c2c2c9:195
+flushWork @ chunk-373CG7ZK.js?v=39c2c2c9:174
+performWorkUntilDeadline @ chunk-373CG7ZK.js?v=39c2c2c9:382
+MusicMap.tsx:165 Uncaught ReferenceError: nonMatchingCount is not defined
+    at MusicMap.tsx:165:13
+    at Array.map (<anonymous>)
+    at MusicMap.tsx:153:33
+    at MusicMap (MusicMap.tsx:182:7)
+    at renderWithHooks (chunk-373CG7ZK.js?v=39c2c2c9:11546:26)
+    at updateFunctionComponent (chunk-373CG7ZK.js?v=39c2c2c9:14580:28)
+    at beginWork (chunk-373CG7ZK.js?v=39c2c2c9:15922:22)
+    at HTMLUnknownElement.callCallback2 (chunk-373CG7ZK.js?v=39c2c2c9:3672:22)
+    at Object.invokeGuardedCallbackDev (chunk-373CG7ZK.js?v=39c2c2c9:3697:24)
+    at invokeGuardedCallback (chunk-373CG7ZK.js?v=39c2c2c9:3731:39)
+(anonymous) @ MusicMap.tsx:165
+(anonymous) @ MusicMap.tsx:153
+MusicMap @ MusicMap.tsx:182
+renderWithHooks @ chunk-373CG7ZK.js?v=39c2c2c9:11546
+updateFunctionComponent @ chunk-373CG7ZK.js?v=39c2c2c9:14580
+beginWork @ chunk-373CG7ZK.js?v=39c2c2c9:15922
+callCallback2 @ chunk-373CG7ZK.js?v=39c2c2c9:3672
+invokeGuardedCallbackDev @ chunk-373CG7ZK.js?v=39c2c2c9:3697
+invokeGuardedCallback @ chunk-373CG7ZK.js?v=39c2c2c9:3731
+beginWork$1 @ chunk-373CG7ZK.js?v=39c2c2c9:19763
+performUnitOfWork @ chunk-373CG7ZK.js?v=39c2c2c9:19196
+workLoopSync @ chunk-373CG7ZK.js?v=39c2c2c9:19135
+renderRootSync @ chunk-373CG7ZK.js?v=39c2c2c9:19114
+recoverFromConcurrentError @ chunk-373CG7ZK.js?v=39c2c2c9:18734
+performConcurrentWorkOnRoot @ chunk-373CG7ZK.js?v=39c2c2c9:18682
+workLoop @ chunk-373CG7ZK.js?v=39c2c2c9:195
+flushWork @ chunk-373CG7ZK.js?v=39c2c2c9:174
+performWorkUntilDeadline @ chunk-373CG7ZK.js?v=39c2c2c9:382
+chunk-373CG7ZK.js?v=39c2c2c9:14030 The above error occurred in the <MusicMap> component:
+
+    at MusicMap (http://localhost:5173/src/components/MusicMap.tsx?t=1760236555587:24:24)
+    at main
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+logCapturedError @ chunk-373CG7ZK.js?v=39c2c2c9:14030
+update.callback @ chunk-373CG7ZK.js?v=39c2c2c9:14050
+callCallback @ chunk-373CG7ZK.js?v=39c2c2c9:11246
+commitUpdateQueue @ chunk-373CG7ZK.js?v=39c2c2c9:11263
+commitLayoutEffectOnFiber @ chunk-373CG7ZK.js?v=39c2c2c9:17091
+commitLayoutMountEffects_complete @ chunk-373CG7ZK.js?v=39c2c2c9:17978
+commitLayoutEffects_begin @ chunk-373CG7ZK.js?v=39c2c2c9:17967
+commitLayoutEffects @ chunk-373CG7ZK.js?v=39c2c2c9:17918
+commitRootImpl @ chunk-373CG7ZK.js?v=39c2c2c9:19351
+commitRoot @ chunk-373CG7ZK.js?v=39c2c2c9:19275
+finishConcurrentRender @ chunk-373CG7ZK.js?v=39c2c2c9:18758
+performConcurrentWorkOnRoot @ chunk-373CG7ZK.js?v=39c2c2c9:18716
+workLoop @ chunk-373CG7ZK.js?v=39c2c2c9:195
+flushWork @ chunk-373CG7ZK.js?v=39c2c2c9:174
+performWorkUntilDeadline @ chunk-373CG7ZK.js?v=39c2c2c9:382
+chunk-373CG7ZK.js?v=39c2c2c9:19411 Uncaught ReferenceError: nonMatchingCount is not defined
+    at MusicMap.tsx:165:13
+    at Array.map (<anonymous>)
+    at MusicMap.tsx:153:33
+    at MusicMap (MusicMap.tsx:182:7)
+    at renderWithHooks (chunk-373CG7ZK.js?v=39c2c2c9:11546:26)
+    at updateFunctionComponent (chunk-373CG7ZK.js?v=39c2c2c9:14580:28)
+    at beginWork (chunk-373CG7ZK.js?v=39c2c2c9:15922:22)
+    at beginWork$1 (chunk-373CG7ZK.js?v=39c2c2c9:19751:22)
+    at performUnitOfWork (chunk-373CG7ZK.js?v=39c2c2c9:19196:20)
+    at workLoopSync (chunk-373CG7ZK.js?v=39c2c2c9:19135:13)
+(anonymous) @ MusicMap.tsx:165
+(anonymous) @ MusicMap.tsx:153
+MusicMap @ MusicMap.tsx:182
+renderWithHooks @ chunk-373CG7ZK.js?v=39c2c2c9:11546
+updateFunctionComponent @ chunk-373CG7ZK.js?v=39c2c2c9:14580
+beginWork @ chunk-373CG7ZK.js?v=39c2c2c9:15922
+beginWork$1 @ chunk-373CG7ZK.js?v=39c2c2c9:19751
+performUnitOfWork @ chunk-373CG7ZK.js?v=39c2c2c9:19196
+workLoopSync @ chunk-373CG7ZK.js?v=39c2c2c9:19135
+renderRootSync @ chunk-373CG7ZK.js?v=39c2c2c9:19114
+recoverFromConcurrentError @ chunk-373CG7ZK.js?v=39c2c2c9:18734
+performConcurrentWorkOnRoot @ chunk-373CG7ZK.js?v=39c2c2c9:18682
+workLoop @ chunk-373CG7ZK.js?v=39c2c2c9:195
+flushWork @ chunk-373CG7ZK.js?v=39c2c2c9:174
+performWorkUntilDeadline @ chunk-373CG7ZK.js?v=39c2c2c9:382
+
+
+ジャンル、テーマの非選択のものが非表示になってしまったため、非選択のものも外側に表示したままにして
+singerで非選択のものは非表示のままでよいです
+
+Singerを選択したものでジャンルやテーマを選択するとテーマに適合しないものが非表示になってしまいます。
+Singerで選択されたものは非表示にしないでください。
+
+
+以下のエラーがでて画面真っ白になります
+App.tsx:2 Uncaught SyntaxError: The requested module '/src/components/MusicMap.tsx?t=1760237666944' does not provide an export named 'MusicMap' (at App.tsx:2:10)
+
+
+songs.csvのI列にTypeの属性を追加しました
+・ジャンルの上にこの選択行を追加して
+・Typeの非選択のサムネイルは非表示になるようにして
+
+以下のエラーがでて画面真っ白です
+MusicMap.tsx:4 Uncaught SyntaxError: The requested module '/src/components/Controls.tsx?t=1760238152648' does not provide an export named 'default' (at MusicMap.tsx:4:8)
+
+画面の表示しているテキストの並びを、現在のType、ジャンル、テーマ、Singer、リリース日順からSinger、Type、ジャンル、テーマに変更して
+
+
+・タイトルがリリース日順を選択するエリアより下になってしまったため、このエリアより☝に移動して
+・csvのリストの一部が画面に表示されません。下方向のスクロールにてすべて表示するようにして
+・ジャンル、テーマを選択したものを中央に移動しなくなってしまいました。選択したものは中央に移動し、非選択のものは外側に移動して
+
+
+以下のエラーがでて画面が真白です
+App.tsx:2 Uncaught SyntaxError: The requested module '/src/components/MusicMap.tsx?t=1760341500441' does not provide an export named 'MusicMap' (at App.tsx:2:10)
+
+タイトルの下にこのページの説明文を入れて。
+曇音ルカの文字にはカッコ内ののリンクを埋め込んで(http://www.youtube.com/@anneruka9514)
+ここの文字にはこのカッコ内のアドレスをリンクして(https://x.com/Dewey_g02）
+説明文は以下、
+曇音ルカさんの非公式動画リストです。
+各動画はカテゴリ別に整理していますが、分類は独自判断によるため、必ずしも正確でない場合があります。
+不具合などを見つけた際は、**ここ**に知らせください。
+
+
+Cloudflare PagesとVercelとどちらへの登録が推奨でしょうか？理由もおしえて。
+
+
+
+
+手順
+ステップ1: Cloudflareアカウントの作成
+   1. Cloudflareのサインアップページ (https://dash.cloudflare.com/sign-up)にアクセスします。
+   2. メールアドレスとパスワードを設定し、「サインアップ」
+      をクリックしてアカウントを作成します。（すでにアカウントをお持ちの場合はログインしてください）
+
+  ステップ2: Pagesプロジェクトの作成とGitHub連携
+   1. Cloudflareのダッシュボードにログインしたら、右側のメニューにある 「Workers & Pages」 をクリックします。
+   2. 「アプリケーションを作成」 をクリックし、表示されたタブの中から 「Pages」 を選択します。
+   3. 「Gitに接続」 をクリックします。
+   4. GitHubアカウントとの連携を求めるポップアップが表示されるので、「GitHubに接続」
+      ボタンを押し、画面の指示に従って認証します。
+   5. 連携するリポジトリの範囲を聞かれます。「すべてのリポジトリ」または「リポジトリを選択する」を選び、先ほど作成
+      したリポジトリ（例: ruka-music-list）へのアクセスを許可して、「インストールして認証する」 をクリックします。
+
+  ステップ3: ビルド設定
+   1. GitHubリポジトリの一覧が表示されたら、今回作成したリポジトリを選択し、「セットアップを開始」
+      をクリックします。
+   2. ビルド設定の画面が表示されます。Cloudflareが賢く、ほとんどの設定を自動で入力してくれます。
+       * プロジェクト名: サイトのURLになります。好きな名前に変更可能です。
+       * 実稼働ブランチ: main が選択されていることを確認します。
+       * フレームワーク プリセット: Vite が自動で選択されているはずです。
+       * ビルドコマンド: npm run build または vite build が入力されています。
+       * ビルド出力ディレクトリ: dist が入力されています。
+
+      基本的に、この画面は何も変更せずにそのままでOKです。
+
+  ステップ4: デプロイと確認
+   1. 設定画面の一番下にある 「保存してデプロイする」 ボタンをクリックします。
+   2. デプロイが自動的に開始されます。初回は数分かかります。
+   3. デプロイの進捗が表示され、最終的に 「成功」 となれば完了です！
+   4. 完了画面に表示されている xxxx.pages.dev というドメインが、あなたのウェブサイトのURLです。このURLにアクセスす
+      れば、世界中の誰でもサイトを閲覧できます。
+
+
