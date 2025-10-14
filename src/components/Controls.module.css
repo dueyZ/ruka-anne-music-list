@@ -4,8 +4,7 @@
   /* topはMusicMap.tsxで動的に設定 */
   left: 50%; /* 水平方向の中央 */
   transform: translateX(-50%); /* 要素の幅の半分だけ左にずらして中央揃え */
-  width: fit-content; /* 内容に応じて幅を調整 */
-  max-width: 90%; /* 画面幅が狭い場合に広がりすぎないように */
+  width: 95%; /* 幅を90%に設定 */
   background-color: rgba(255, 255, 255, 0.9);
   padding: 12px;
   border-radius: 8px;
@@ -42,4 +41,20 @@
   background-color: #007bff;
   color: #fff;
   border-color: #007bff;
+}
+
+/* スマートフォン向けのスタイル */
+@media (max-width: 480px) {
+  .controlsContainer {
+    padding: 8px; /* コンテナのパディングを縮小 */
+  }
+
+  .filterGroup {
+    gap: 4px; /* ボタン間のギャップを縮小 */
+  }
+
+  .button {
+    padding: 4px 8px; /* ボタンのパディングを縮小 */
+    font-size: 12px; /* フォントサイズを縮小 */
+  }
 }

@@ -364,3 +364,30 @@ Cloudflare PagesとVercelとどちらへの登録が推奨でしょうか？理�
       れば、世界中の誰でもサイトを閲覧できます。
 
 
+以下のエラーがでています
+2025-10-13T14:28:51.404574Z	Cloning repository...
+2025-10-13T14:28:52.042993Z	From https://github.com/dueyZ/ruka-anne-music-list
+2025-10-13T14:28:52.04347Z	 * branch            46bdbc892e829b06adbd81038e268cb3fca36a3f -> FETCH_HEAD
+2025-10-13T14:28:52.043565Z	
+2025-10-13T14:28:52.065526Z	HEAD is now at 46bdbc8 first commit
+2025-10-13T14:28:52.066057Z	
+2025-10-13T14:28:52.151216Z	
+2025-10-13T14:28:52.152053Z	Using v2 root directory strategy
+2025-10-13T14:28:52.174483Z	Success: Finished cloning repository files
+2025-10-13T14:28:53.898434Z	Checking for configuration in a Wrangler configuration file (BETA)
+2025-10-13T14:28:53.899262Z	
+2025-10-13T14:28:54.99962Z	No wrangler.toml file found. Continuing.
+2025-10-13T14:28:55.06532Z	Detected the following tools from environment: 
+2025-10-13T14:28:55.065894Z	Executing user command: npm run build
+2025-10-13T14:28:55.55547Z	npm error code ENOENT
+2025-10-13T14:28:55.555716Z	npm error syscall open
+2025-10-13T14:28:55.555827Z	npm error path /opt/buildhome/repo/package.json
+2025-10-13T14:28:55.555894Z	npm error errno -2
+2025-10-13T14:28:55.555951Z	npm error enoent Could not read package.json: Error: ENOENT: no such file or directory, open '/opt/buildhome/repo/package.json'
+2025-10-13T14:28:55.556014Z	npm error enoent This is related to npm not being able to find a file.
+2025-10-13T14:28:55.556073Z	npm error enoent
+2025-10-13T14:28:55.556339Z	npm error A complete log of this run can be found in: /opt/buildhome/.npm/_logs/2025-10-13T14_28_55_470Z-debug-0.log
+2025-10-13T14:28:55.564524Z	Failed: Error while executing user command. Exited with error code: 254
+2025-10-13T14:28:55.572456Z	Failed: build command exited with code: 1
+2025-10-13T14:28:56.854547Z	Failed: error occurred while running build command
+
