@@ -155,9 +155,9 @@ export const MusicMap: React.FC = () => {
     >
       {/* ヘッダー領域 */}
       <div style={{ position: 'sticky', top: 0, backgroundColor: '#f0f0f0', zIndex: 20, padding: '1px' }}>
-        <h1 ref={titleRef}>曇音ルカ 楽曲リスト</h1>
-        <p style={{ textAlign: 'center', margin: '0 20px 20px' }}>
-          <a href="http://www.youtube.com/@anneruka9514" target="_blank" rel="noopener noreferrer">曇音ルカ</a>さんの非公式動画リストです<br />
+        <h1 ref={titleRef} style={{ marginBottom: 0 }}>曇音ルカ 楽曲リスト</h1>
+        <p style={{ textAlign: 'center', margin: '5px 20px 20px' }}>
+          <a href="http://www.youtube.com/@anneruka9514" target="_blank" rel="noopener noreferrer">曇音ルカ</a>さんの動画を個人的にまとめた非公式リストです<br />
           各動画はカテゴリ別に整理できるようにしていますが、分類は独自判断によるため、必ずしも正確でない場合があります<br />
           不具合などを見つけた際は、<a href="https://x.com/Dewey_g02" target="_blank" rel="noopener noreferrer"><strong>ここ</strong></a>へ
         </p>
