@@ -2,11 +2,16 @@ import React from 'react';
 import { Song } from '../data/songs';
 import styles from './Controls.module.css';
 
+// BPMソート順の型定義
+export type BpmSortOrder = 'none' | 'slow' | 'fast';
+
 interface ControlsProps {
   songs: Song[];
   onFilterChange: (filterType: 'genre' | 'theme' | 'singer' | 'type', value: string | null) => void;
   onSortChange: (order: 'none' | 'asc' | 'desc') => void;
+  onBpmSortChange: (order: BpmSortOrder) => void; // BPMソート用のコールバック
   activeSortOrder: 'none' | 'asc' | 'desc';
+  activeBpmSortOrder: BpmSortOrder; // アクティブなBPMソート順
   activeFilter: string | null;
   activeThemeFilter: string | null;
   activeSingerFilter: string | null;
@@ -19,15 +24,14 @@ interface ControlsProps {
  * @param {ControlsProps} props
  * @returns {React.JSX.Element}
  */
-const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFilterChange, onSortChange, activeSortOrder, activeFilter, activeThemeFilter, activeSingerFilter, activeTypeFilter, style }, ref) => {
-  // すべての曲からユニークなTypeのリストを作成する
+const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFilterChange, onSortChange, onBpmSortChange, activeSortOrder, activeBpmSortOrder, activeFilter, activeThemeFilter, activeSingerFilter, activeTypeFilter, style }, ref) => {
+  // （既存のロジックは変更なし）
   const allTypes = React.useMemo(() => {
     const types = new Set<string>();
-    songs.forEach(song => song.type && types.add(song.type)); // song.typeが存在する場合のみ追加
+    songs.forEach(song => song.type && types.add(song.type));
     return Array.from(types);
   }, [songs]);
 
-  // すべての曲からユニークなジャンルのリストを作成する
   const allGenres = React.useMemo(() => {
     const genres = new Set<string>();
     songs.forEach(song => {
@@ -36,25 +40,23 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
     return Array.from(genres);
   }, [songs]);
 
-  // すべての曲からユニークなテーマのリストを作成する
   const allThemes = React.useMemo(() => {
     const themes = new Set<string>();
     songs.forEach(song => themes.add(song.theme));
     return Array.from(themes);
   }, [songs]);
 
-  // すべての曲からユニークなSingerのリストを作成する
   const allSingers = React.useMemo(() => {
     const singers = new Set<string>();
     songs.forEach(song => singers.add(song.singer));
-    return Array.from(singers).filter(s => s !== ''); // 空文字列を除外
+    return Array.from(singers).filter(s => s !== '');
   }, [songs]);
 
   return (
     <div className={styles.controlsContainer} ref={ref} style={style}>
+      {/* （既存のフィルターグループは変更なし） */}
       <div className={styles.filterGroup}>
         <strong>Singer:</strong>
-        {/* "すべて" に戻すボタン */}
         <button
           key="all-singers"
           onClick={() => onFilterChange('singer', null)}
@@ -62,7 +64,6 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
         >
           すべて
         </button>
-        {/* 各Singerのボタン */}
         {allSingers.map((singer, index) => (
           <button
             key={`${singer}-${index}`}
@@ -76,7 +77,6 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
 
       <div className={styles.filterGroup}>
         <strong>Type:</strong>
-        {/* "すべて" に戻すボタン */}
         <button
           key="all-types"
           onClick={() => onFilterChange('type', null)}
@@ -84,7 +84,6 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
         >
           すべて
         </button>
-        {/* 各Typeのボタン */}
         {allTypes.map(type => (
           <button
             key={type}
@@ -98,7 +97,6 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
 
       <div className={styles.filterGroup}>
         <strong>ジャンル:</strong>
-        {/* "すべて" に戻すボタン */}
         <button
           key="all-genres"
           onClick={() => onFilterChange('genre', null)}
@@ -106,7 +104,6 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
         >
           すべて
         </button>
-        {/* 各ジャンルのボタン */}
         {allGenres.map(genre => (
           <button
             key={genre}
@@ -120,7 +117,6 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
 
       <div className={styles.filterGroup}>
         <strong>テーマ:</strong>
-        {/* "すべて" に戻すボタン */}
         <button
           key="all-themes"
           onClick={() => onFilterChange('theme', null)}
@@ -128,7 +124,6 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
         >
           すべて
         </button>
-        {/* 各テーマのボタン */}
         {allThemes.map(theme => (
           <button
             key={theme}
@@ -138,6 +133,28 @@ const Controls = React.forwardRef<HTMLDivElement, ControlsProps>(({ songs, onFil
             {theme}
           </button>
         ))}
+      </div>
+
+      <div className={styles.filterGroup}>
+        <strong>BPM:</strong>
+        <button
+          onClick={() => onBpmSortChange('none')}
+          className={`${styles.button} ${activeBpmSortOrder === 'none' ? styles.active : ''}`}
+        >
+          なし
+        </button>
+        <button
+          onClick={() => onBpmSortChange('slow')}
+          className={`${styles.button} ${activeBpmSortOrder === 'slow' ? styles.active : ''}`}
+        >
+          Slow
+        </button>
+        <button
+          onClick={() => onBpmSortChange('fast')}
+          className={`${styles.button} ${activeBpmSortOrder === 'fast' ? styles.active : ''}`}
+        >
+          Fast
+        </button>
       </div>
 
       <div className={styles.filterGroup}>

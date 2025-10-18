@@ -391,3 +391,17 @@ Cloudflare PagesとVercelとどちらへの登録が推奨でしょうか？理�
 2025-10-13T14:28:55.572456Z	Failed: build command exited with code: 1
 2025-10-13T14:28:56.854547Z	Failed: error occurred while running build command
 
+
+ブラウザの横幅の表示エリアを小さくした場合Singerなどの選択できるエリアが縦に伸びで見にくくなるため、SingerやTypeなどが表示されるエリアを横幅ギリギリまで伸ばしてSingerやTypeなどが表示されるエリアの縦に伸びる長さを選らして
+
+
+以下の機能を追加して
+songs.csvのbpmの項目をUIに表示
+リリース日順の上にBPMとして表示
+BPMの選択できる項目としてはなし、Slow、Fast
+Slowを選択した場合はSinger、Type、ジャンル、テーマで選択されたサムネイルをBPMの値が小さい順に並べ替えて表示、Fastの場合は逆
+
+
+もともと機能としてあった非選択のものを外に配置する機能がなくなっています
+選択したものは中心付近にサムネイルが重ならないように配置
+非選択のものは外に配置するようにして

@@ -1,24 +1,23 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { Song } from '../data/songs';
 import SongNode from './SongNode';
-import Controls from './Controls';
+import Controls, { BpmSortOrder } from './Controls'; // BpmSortOrder をインポート
 import styles from './MusicMap.module.css';
 
 export const MusicMap: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const controlsRef = useRef<HTMLDivElement>(null); // Controlsコンポーネントの参照
-  const titleRef = useRef<HTMLHeadingElement>(null); // h1タグの参照
-  const [activeFilter, setActiveFilter] = useState<string | null>(null); // ジャンルフィルター
-  const [activeThemeFilter, setActiveThemeFilter] = useState<string | null>(null); // テーマフィルター
-  const [activeSingerFilter, setActiveSingerFilter] = useState<string | null>(null); // 歌手フィルター
-  const [activeTypeFilter, setActiveTypeFilter] = useState<string | null>(null); // タイプフィルター
-  const [sortOrder, setSortOrder] = useState<'none' | 'asc' | 'desc'>('none');
+  const controlsRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [activeThemeFilter, setActiveThemeFilter] = useState<string | null>(null);
+  const [activeSingerFilter, setActiveSingerFilter] = useState<string | null>(null);
+  const [activeTypeFilter, setActiveTypeFilter] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'none' | 'asc' | 'desc'>('desc'); // デフォルトを新しい順に
+  const [bpmSortOrder, setBpmSortOrder] = useState<BpmSortOrder>('none'); // BPMソートのstate
+  const [songs, setSongs] = useState<Song[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-  const [actualControlsHeight, setActualControlsHeight] = useState(0); // Controlsの実際の高さ
-  const [actualTitleHeight, setActualTitleHeight] = useState(0); // h1の実際の高さ
-  const [songs, setSongs] = useState<Song[]>([]); // CSVから読み込んだ曲データ
-  const [loading, setLoading] = useState(true); // データ読み込み中フラグ
-  const [error, setError] = useState<string | null>(null); // エラーメッセージ
 
   // CSVデータのフェッチとパース
   useEffect(() => {
@@ -31,12 +30,8 @@ export const MusicMap: React.FC = () => {
         }
         const csvText = await response.text();
         const parsedSongs: Song[] = csvText.split('\n').slice(1).filter(row => row.trim() !== '').map(row => {
-          // 正規表現を使用して、引用符で囲まれたカンマも正しく処理する
           const columns = row.match(/(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|([^,]*)),?/g)?.map(field => field.replace(/,$/, '').replace(/^\"|\"$/g, '').replace(/\"\"/g, '\"').trim()) || [];
-
           const [id, title, releaseDate, genresStr, theme, bpm, videoId, singer, type] = columns;
-
-          // 各フィールドが存在するか確認してからtrim()を適用
           return {
             id: id ? id.trim() : '',
             title: title ? title.trim() : '',
@@ -64,64 +59,41 @@ export const MusicMap: React.FC = () => {
   useLayoutEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
-        setContainerSize({
-          width: containerRef.current.clientWidth,
-          height: containerRef.current.clientHeight,
-        });
+        setContainerSize({ width: containerRef.current.clientWidth, height: containerRef.current.clientHeight });
       }
     };
-    updateSize(); // 初期測定
+    updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  // Controlsとh1の実際の高さを測定
-  useLayoutEffect(() => {
-    const measureHeights = () => {
-      if (controlsRef.current) {
-        setActualControlsHeight(controlsRef.current.offsetHeight);
-      }
-      if (titleRef.current) {
-        setActualTitleHeight(titleRef.current.offsetHeight);
-      }
-    };
-    measureHeights(); // 初期測定
-    window.addEventListener('resize', measureHeights); // リサイズ時にも再測定
-    return () => window.removeEventListener('resize', measureHeights);
-  }, []);
-
   const handleFilterChange = (filterType: 'genre' | 'theme' | 'singer' | 'type', value: string | null) => {
-    if (filterType === 'genre') {
-      setActiveFilter(value);
-    } else if (filterType === 'theme') {
-      setActiveThemeFilter(value);
-    } else if (filterType === 'singer') {
-      setActiveSingerFilter(value);
-    } else if (filterType === 'type') {
-      setActiveTypeFilter(value);
-    } 
+    if (filterType === 'genre') setActiveFilter(value);
+    else if (filterType === 'theme') setActiveThemeFilter(value);
+    else if (filterType === 'singer') setActiveSingerFilter(value);
+    else if (filterType === 'type') setActiveTypeFilter(value);
   };
 
+  // リリース日順ソートのハンドラ
   const handleSortChange = (order: 'none' | 'asc' | 'desc') => {
     setSortOrder(order);
+    if (order !== 'none') {
+      setBpmSortOrder('none'); // BPMソートをリセット
+    }
   };
 
-  // レンダリングする曲のリストを準備（ソートのみを適用）
-  const sortedAllSongs = React.useMemo(() => {
-    let allSongs = [...songs]; // CSVから読み込んだsongsを使用
-    if (sortOrder === 'asc') {
-      allSongs.sort((a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime());
-    } else if (sortOrder === 'desc') {
-      allSongs.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
+  // BPMソートのハンドラ
+  const handleBpmSortChange = (order: BpmSortOrder) => {
+    setBpmSortOrder(order);
+    if (order !== 'none') {
+      setSortOrder('none'); // リリース日ソートをリセット
     }
-    return allSongs; // ソートされたすべての曲を返す
-  }, [sortOrder, songs]); // songsが更新されたら再計算
+  };
 
-
-
-  // レンダリングする曲のリストと全体の高さを計算
+  // 曲のフィルタリングとソートを行う
   const { allRenderedSongs, containerHeight } = React.useMemo(() => {
-    let displayedSongs = [...sortedAllSongs];
+    // 1. Singer と Type でフィルタリング
+    let displayedSongs = [...songs];
     if (activeTypeFilter !== null) {
       displayedSongs = displayedSongs.filter(song => song.type === activeTypeFilter);
     }
@@ -129,36 +101,51 @@ export const MusicMap: React.FC = () => {
       displayedSongs = displayedSongs.filter(song => song.singer === activeSingerFilter);
     }
 
-    const matchingSongs = displayedSongs.filter(song => {
-      const genreMatch = activeFilter === null || song.genres.includes(activeFilter);
-      const themeMatch = activeThemeFilter === null || song.theme === activeThemeFilter;
-      return genreMatch && themeMatch;
-    });
+    // 2. Genre と Theme に基づいてマッチする曲としない曲に分ける
+    let matchingSongs = displayedSongs.filter(song => 
+      (activeFilter === null || song.genres.includes(activeFilter)) &&
+      (activeThemeFilter === null || song.theme === activeThemeFilter)
+    );
 
     const nonMatchingSongs = displayedSongs.filter(song => !matchingSongs.includes(song));
 
+    // 3. マッチした曲をソートする
+    if (bpmSortOrder === 'slow') {
+      matchingSongs.sort((a, b) => a.bpm - b.bpm);
+    } else if (bpmSortOrder === 'fast') {
+      matchingSongs.sort((a, b) => b.bpm - a.bpm);
+    } else if (sortOrder === 'asc') {
+      matchingSongs.sort((a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime());
+    } else if (sortOrder === 'desc') {
+      matchingSongs.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
+    }
+
+    // 4. マッチしなかった曲もリリース日順でソートしておく（一貫性のため）
+    if (sortOrder === 'asc') {
+      nonMatchingSongs.sort((a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime());
+    } else if (sortOrder === 'desc') {
+      nonMatchingSongs.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
+    }
+
     const allSongs = [...matchingSongs, ...nonMatchingSongs];
 
-    // コンテナの高さを計算
     const topOffset = (titleRef.current?.offsetHeight || 0) + (controlsRef.current?.offsetHeight || 0) + 40;
     const { height } = calculateDynamicHeight(matchingSongs.length, nonMatchingSongs.length, topOffset);
 
     return { allRenderedSongs: allSongs, containerHeight: height };
-  }, [sortedAllSongs, activeFilter, activeThemeFilter, activeTypeFilter, activeSingerFilter, titleRef.current, controlsRef.current]);
-
+  }, [songs, activeFilter, activeThemeFilter, activeTypeFilter, activeSingerFilter, sortOrder, bpmSortOrder, titleRef, controlsRef]);
 
   return (
     <div 
       className={styles.container}
       ref={containerRef}
-      style={{ height: containerSize.height > 0 ? `${containerHeight}px` : '100vh' }} // 動的に高さを設定
+      style={{ height: containerSize.height > 0 ? `${containerHeight}px` : '100vh' }}
     >
-      {/* ヘッダー領域 */}
       <div style={{ position: 'sticky', top: 0, backgroundColor: '#f0f0f0', zIndex: 20, padding: '1px' }}>
         <h1 ref={titleRef} style={{ marginBottom: 0 }}>曇音ルカ 楽曲リスト</h1>
         <p style={{ textAlign: 'center', margin: '5px 20px 20px' }}>
-          <a href="http://www.youtube.com/@anneruka9514" target="_blank" rel="noopener noreferrer">曇音ルカ</a>さんの動画を個人的にまとめた非公式リストです<br />
-          各動画はカテゴリ別に整理できるようにしていますが、分類は独自判断によるため、必ずしも正確でない場合があります<br />
+          <a href="http://www.youtube.com/@anneruka9514" target="_blank" rel="noopener noreferrer">曇音ルカ</a>さんに関連するYoutubeの動画を個人的な視点でまとめた非公式リストです<br />
+          動画の分類は独自の判断に基づいておりますので、あらかじめご了承ください<br />
           不具合などを見つけた際は、<a href="https://x.com/Dewey_g02" target="_blank" rel="noopener noreferrer"><strong>ここ</strong></a>へ
         </p>
         <Controls
@@ -166,7 +153,9 @@ export const MusicMap: React.FC = () => {
           songs={songs}
           onFilterChange={handleFilterChange}
           onSortChange={handleSortChange}
+          onBpmSortChange={handleBpmSortChange} // 追加
           activeSortOrder={sortOrder}
+          activeBpmSortOrder={bpmSortOrder} // 追加
           activeFilter={activeFilter}
           activeThemeFilter={activeThemeFilter}
           activeSingerFilter={activeSingerFilter}
@@ -177,10 +166,15 @@ export const MusicMap: React.FC = () => {
       {loading && <div className={styles.loading}>データ読み込み中...</div>}
       {error && <div className={styles.error}>エラー: {error}</div>}
 
-      {containerSize.width > 0 && containerSize.height > 0 && !loading && !error && allRenderedSongs.map(song => {
-        const isNowMatching = (activeFilter === null || song.genres.includes(activeFilter)) && (activeThemeFilter === null || song.theme === activeThemeFilter);
+      {containerSize.width > 0 && !loading && !error && allRenderedSongs.map(song => {
+        const isNowMatching = 
+          (activeFilter === null || song.genres.includes(activeFilter)) && 
+          (activeThemeFilter === null || song.theme === activeThemeFilter);
 
-        const matchingSongs = allRenderedSongs.filter(s => (activeFilter === null || s.genres.includes(activeFilter)) && (activeThemeFilter === null || s.theme === activeThemeFilter));
+        const matchingSongs = allRenderedSongs.filter(s => 
+          (activeFilter === null || s.genres.includes(activeFilter)) && 
+          (activeThemeFilter === null || s.theme === activeThemeFilter)
+        );
         const nonMatchingSongs = allRenderedSongs.filter(s => !matchingSongs.includes(s));
 
         const indexInGroup = isNowMatching
@@ -215,6 +209,7 @@ export const MusicMap: React.FC = () => {
   );
 };
 
+// （以降の関数 calculateNodePosition, calculateDynamicHeight は変更なし）
 
 /**
  * 曲のノードの位置を計算する
@@ -275,7 +270,11 @@ const calculateNodePosition = (
 /**
  * コンテンツ全体の動的な高さを計算する
  */
-const calculateDynamicHeight = (matchingCount: number, nonMatchingCount: number, topOffset: number) => {
+const calculateDynamicHeight = (
+  matchingCount: number,
+  nonMatchingCount: number,
+  topOffset: number
+) => {
   const nodeHeight = 150;
   const margin = 20;
   const effectiveHeight = nodeHeight + margin;

@@ -1,0 +1,13 @@
+対話セッションをPowerShellでログ保存
+Start-Transcript -Path "gemini-session.log"
+gemini
+# 対話を進める
+Stop-Transcript
+
+
+ PowerShellで標準出力をファイルにリダイレクト
+gemini "Explain quantum computing" > output.txt
+
+
+/chat export コマンドでファイル出力
+/chat save my-session
