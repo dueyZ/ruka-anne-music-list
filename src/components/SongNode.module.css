@@ -52,3 +52,20 @@
   from { border-color: red; }
   to { border-color: rgba(255, 0, 0, 0.3); } /* 薄い赤に点滅 */
 }
+
+/* スマートフォン表示用のスタイル */
+@media (max-width: 768px) {
+  .node {
+    width: 30vw; /* 画面幅の約30% */
+    padding: 4px;
+  }
+
+  .thumbnail {
+    height: auto; /* 高さは自動調整 */
+    aspect-ratio: 16 / 9; /* アスペクト比を16:9に */
+  }
+
+  .title {
+    font-size: 10px;
+  }
+}

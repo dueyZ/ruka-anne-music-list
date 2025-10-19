@@ -222,9 +222,10 @@ const calculateNodePosition = (
   topOffset: number,
   containerWidth: number
 ) => {
-  const nodeWidth = 120;
+  const isMobile = containerWidth <= 768;
+  const nodeWidth = isMobile ? 30 * containerWidth / 100 : 120;
   const nodeHeight = 150;
-  const margin = 20;
+  const margin = isMobile ? 10 : 20;
   const effectiveWidth = nodeWidth + margin;
   const effectiveHeight = nodeHeight + margin;
   const centerX = containerWidth / 2;
@@ -275,8 +276,11 @@ const calculateDynamicHeight = (
   nonMatchingCount: number,
   topOffset: number
 ) => {
+  const containerWidth = window.innerWidth;
+  const isMobile = containerWidth <= 768;
+  const nodeWidth = isMobile ? 30 * containerWidth / 100 : 120;
   const nodeHeight = 150;
-  const margin = 20;
+  const margin = isMobile ? 10 : 20;
   const effectiveHeight = nodeHeight + margin;
   let totalHeight = topOffset;
 
@@ -284,7 +288,7 @@ const calculateDynamicHeight = (
   if (matchingCount > 0) {
     const containerWidth = window.innerWidth;
     const availableGridWidth = containerWidth * 0.7;
-    const effectiveWidth = 120 + margin;
+    const effectiveWidth = nodeWidth + margin;
     const cols = Math.max(1, Math.floor(availableGridWidth / effectiveWidth));
     const rows = Math.ceil(matchingCount / cols);
     totalHeight += rows * effectiveHeight;
