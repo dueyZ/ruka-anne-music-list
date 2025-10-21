@@ -375,8 +375,6 @@ h1 {
   position: relative;
   width: 100%;
   min-height: 100vh; /* 最小でもビューポートの高さに */
-  overflow-y: auto; /* 縦方向にスクロール可能にする */
-  -webkit-overflow-scrolling: touch; /* iOSでの慣性スクロールを有効にする */
   box-sizing: border-box; /* paddingを高さに含める */
 }
 

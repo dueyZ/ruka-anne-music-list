@@ -139,7 +139,7 @@ export const MusicMap: React.FC = () => {
     <div 
       className={styles.container}
       ref={containerRef}
-      style={{ height: containerSize.height > 0 ? `${containerHeight}px` : '100vh' }}
+      style={{ minHeight: containerSize.height > 0 ? `${containerHeight}px` : '100vh' }}
     >
       <div style={{ position: 'sticky', top: 0, backgroundColor: '#f0f0f0', zIndex: 20, padding: '1px' }}>
         <h1 ref={titleRef} style={{ marginBottom: 0 }}>曇音ルカ 楽曲リスト</h1>
