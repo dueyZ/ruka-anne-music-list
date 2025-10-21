@@ -58,7 +58,7 @@
 /* スマートフォン表示用のスタイル */
 @media (max-width: 1200px) {
   .node {
-    width: 150px; /* 画面幅の約25% */
+    width: 100px; /* 3列表示のために幅を小さくする */
     padding: 4px;
   }
 
