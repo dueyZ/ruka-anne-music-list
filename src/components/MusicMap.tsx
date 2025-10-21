@@ -222,10 +222,10 @@ const calculateNodePosition = (
   topOffset: number,
   containerWidth: number
 ) => {
-  const isMobile = containerWidth <= 768;
-  const nodeWidth = isMobile ? 30 * containerWidth / 100 : 120;
-  const nodeHeight = 150;
-  const margin = isMobile ? 10 : 20;
+  const isMobile = containerWidth <= 1200;
+  const nodeWidth = 150;
+  const nodeHeight = 113;
+  const margin = 0;
   const effectiveWidth = nodeWidth + margin;
   const effectiveHeight = nodeHeight + margin;
   const centerX = containerWidth / 2;
@@ -241,7 +241,7 @@ const calculateNodePosition = (
     const gridHeight = (Math.ceil(total / cols)) * effectiveHeight - margin;
 
     const offsetX = (containerWidth - gridWidth) / 2;
-    const offsetY = topOffset + 20; // タイトルとコントロール下のマージン
+    const offsetY = topOffset; // タイトルとコントロール下のマージン
 
     const x = offsetX + col * effectiveWidth;
     const y = offsetY + row * effectiveHeight;
@@ -277,16 +277,15 @@ const calculateDynamicHeight = (
   topOffset: number
 ) => {
   const containerWidth = window.innerWidth;
-  const isMobile = containerWidth <= 768;
-  const nodeWidth = isMobile ? 30 * containerWidth / 100 : 120;
-  const nodeHeight = 150;
-  const margin = isMobile ? 10 : 20;
+  const isMobile = containerWidth <= 1200;
+  const nodeWidth = 150;
+  const nodeHeight = 113;
+  const margin = 0;
   const effectiveHeight = nodeHeight + margin;
   let totalHeight = topOffset;
 
   // マッチするアイテムのグリッド高さを計算
   if (matchingCount > 0) {
-    const containerWidth = window.innerWidth;
     const availableGridWidth = containerWidth * 0.7;
     const effectiveWidth = nodeWidth + margin;
     const cols = Math.max(1, Math.floor(availableGridWidth / effectiveWidth));

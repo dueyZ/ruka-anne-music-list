@@ -4,13 +4,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 120px; /* 幅を固定 */
+  width: 150px; /* 幅を固定 */
+  height: auto; /* 高さを自動調整 */
   text-decoration: none;
   color: #333;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
-  padding: 8px;
+  padding: 8px 8px 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s; /* border-colorもトランジション対象に */
   box-sizing: border-box; /* パディングとボーダーをwidth/heightに含める */
@@ -24,14 +25,15 @@
 /* サムネイル画像のスタイル */
 .thumbnail {
   width: 100%;
-  height: 68px; /* 高さを固定して表示を強制する */
+  height: auto; /* 高さを自動調整 */
   object-fit: cover; /* アスペクト比を保ったままエリアを埋める */
   border-radius: 4px;
+  aspect-ratio: 16 / 9; /* アスペクト比を16:9に */
 }
 
 /* 曲名のスタイル */
 .title {
-  margin-top: 8px;
+  margin-top: 4px;
   font-size: 12px;
   text-align: center;
   /* 長いタイトルを省略符号(...)で表示 */
@@ -54,9 +56,9 @@
 }
 
 /* スマートフォン表示用のスタイル */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .node {
-    width: 30vw; /* 画面幅の約30% */
+    width: 150px; /* 画面幅の約25% */
     padding: 4px;
   }
 
