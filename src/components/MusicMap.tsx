@@ -139,7 +139,7 @@ export const MusicMap: React.FC = () => {
     <div 
       className={styles.container}
       ref={containerRef}
-      style={{ minHeight: containerSize.height > 0 ? `${containerHeight}px` : '100vh' }}
+      style={{ height: containerSize.height > 0 ? `${containerHeight}px` : '100vh' }}
     >
       <div style={{ position: 'sticky', top: 0, backgroundColor: '#f0f0f0', zIndex: 20, padding: '1px' }}>
         <h1 ref={titleRef} style={{ marginBottom: 0 }}>曇音ルカ 楽曲リスト</h1>
@@ -223,25 +223,25 @@ const calculateNodePosition = (
   containerWidth: number
 ) => {
   const isMobile = containerWidth <= 1200;
-  // isMobileに応じてノードのサイズを変更
-  const nodeWidth = isMobile ? 100 : 150;
-  const nodeHeight = isMobile ? 75 : 113;
+  const nodeWidth = 150;
+  const nodeHeight = 113;
   const margin = 0;
   const effectiveWidth = nodeWidth + margin;
   const effectiveHeight = nodeHeight + margin;
   const centerX = containerWidth / 2;
 
   if (isMatching) {
-    const availableGridWidth = containerWidth * (isMobile ? 0.95 : 0.7);
-    // isMobileなら3列、そうでなければ動的に計算
-    const cols = isMobile ? 3 : Math.max(1, Math.floor(availableGridWidth / effectiveWidth));
+    const availableGridWidth = containerWidth * 0.7;
+    const cols = Math.max(1, Math.floor(availableGridWidth / effectiveWidth));
     const total = matchingCount;
     const col = index % cols;
     const row = Math.floor(index / cols);
 
     const gridWidth = Math.min(total, cols) * effectiveWidth - margin;
+    const gridHeight = (Math.ceil(total / cols)) * effectiveHeight - margin;
+
     const offsetX = (containerWidth - gridWidth) / 2;
-    const offsetY = topOffset;
+    const offsetY = topOffset; // タイトルとコントロール下のマージン
 
     const x = offsetX + col * effectiveWidth;
     const y = offsetY + row * effectiveHeight;
@@ -258,9 +258,7 @@ const calculateNodePosition = (
     const angle = (index / total) * 2 * Math.PI + Math.PI / 2; // 開始点を調整
     
     // グリッドのY座標の中心を求める
-    const availableGridWidth = containerWidth * (isMobile ? 0.95 : 0.7);
-    const matchingCols = isMobile ? 3 : Math.max(1, Math.floor(availableGridWidth / effectiveWidth));
-    const matchingGridRows = matchingCount > 0 ? Math.ceil(matchingCount / matchingCols) : 0;
+    const matchingGridRows = matchingCount > 0 ? Math.ceil(matchingCount / Math.max(1, Math.floor((containerWidth * 0.7) / effectiveWidth))) : 0;
     const matchingGridHeight = matchingGridRows * effectiveHeight;
     const gridCenterY = topOffset + 20 + matchingGridHeight / 2;
 
@@ -280,19 +278,17 @@ const calculateDynamicHeight = (
 ) => {
   const containerWidth = window.innerWidth;
   const isMobile = containerWidth <= 1200;
-  // isMobileに応じてノードのサイズを変更
-  const nodeWidth = isMobile ? 100 : 150;
-  const nodeHeight = isMobile ? 75 : 113;
+  const nodeWidth = 150;
+  const nodeHeight = 113;
   const margin = 0;
   const effectiveHeight = nodeHeight + margin;
   let totalHeight = topOffset;
 
   // マッチするアイテムのグリッド高さを計算
   if (matchingCount > 0) {
-    const availableGridWidth = containerWidth * (isMobile ? 0.95 : 0.7);
+    const availableGridWidth = containerWidth * 0.7;
     const effectiveWidth = nodeWidth + margin;
-    // isMobileなら3列、そうでなければ動的に計算
-    const cols = isMobile ? 3 : Math.max(1, Math.floor(availableGridWidth / effectiveWidth));
+    const cols = Math.max(1, Math.floor(availableGridWidth / effectiveWidth));
     const rows = Math.ceil(matchingCount / cols);
     totalHeight += rows * effectiveHeight;
   }
